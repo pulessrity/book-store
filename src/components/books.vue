@@ -1,7 +1,6 @@
 <template>
   <div   class="book-regulator"  >
     <div class="books" @mouseenter.stop="add"  @mouseleave.stop="add" >
-   <v-login></v-login>
       <span class="hot-word"  v-once>Hot</span>
       <transition name="component-fade" mode="out-in">
         <img :src="index_bg"  class="faker-img"  :key="0.145"  v-if="change_m"/>
@@ -9,13 +8,13 @@
       </transition>
       <div class="font">
         <transition-group name="list" tag="p" >
-    < <el-button :icon=" icon_arr[index].img" circle v-for="(item,index) in  items"  v-if="items.length!=0" :key="item" class="list-item" >
+    < <el-button :icon=" icon_arr[index].img" circle v-for="(item,index) in  items"  v-if="items.length!==0" :key="item" class="list-item" >
         </el-button>
         </transition-group>
       </div>
-      <el-rate v-model="star_index" v-if="items.length!=0"   disabled
+      <el-rate v-model="star_index" v-if="items.length!==0"   disabled
               ></el-rate>
-      <ul class="prize d-flex" v-if="items.length==0">
+      <ul class="prize d-flex" v-if="items.length===0">
         <li>$35.00</li>
         <li class="old_prize">$35.00</li>
       </ul>
@@ -23,19 +22,15 @@
   </div>
 </template>
 <script>
-  import  login  from  '@/components/login.vue'
     export default {
-    components:{
-      'v-login':login
-    },
       props:{
         index_bg:{
           type: String,
-          default: 'https://sjbz-fd.zol-img.com.cn/t_s320x510c/g5/M00/00/07/ChMkJ1vyri-IPwqHAAF8rsiLVfMAAtQGgPMZbEAAXzG361.jpg'
+          default: '//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(Math.random()*100000)+'.jpg'
         },
         faker_bg:{
           type: String,
-          default: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3814969672,2992789085&fm=26&gp=0.jpg'
+          default: '//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(Math.random()*100000)+'.jpg'
         },
         icon_arr: {
           type:Array,
@@ -57,14 +52,17 @@
         timer:null,
         time_index:0,
         change_m:true,
-        shaking:true
+        shaking:true,
       }
     },
       methods:{
+      _login(){
+
+      },
         randomIndex: function () {
           return Math.floor(Math.random() * this.items.length)
         },
-      add () {
+        add () {
         let that = this
         if (!this.shaking) {
           return false
