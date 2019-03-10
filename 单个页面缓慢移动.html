@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title> new document </title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style type="text/css">
+        body{
+            height: 2000px
+        }
+        .bg {
+            background: url(http://hbfile.b0.upaiyun.com/img/home/banner/8b9b27958ec5005c566e9a8d1b663e561dad76effa888) center top no-repeat;
+            height: 408px;
+        }
+    </style>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="bg" id="J_bg"></div>
+<script>
+    $(function(){
+        var $ele = $('#J_bg');
+        var height = $ele.height();
+        console.log(height)
+        $(window).on('scroll', function(){
+            var scrollTop = -$(document).scrollTop()/2;
+            var offset = scrollTop > height ? height : scrollTop;
+            console.log(scrollTop)
+            $ele.css('background-position', '50%'+ 2+offset + 'px');
+        });
+    })
+</script>
+</body>
+</html>

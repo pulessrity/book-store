@@ -1,7 +1,6 @@
 <template>
-  <div   class="book-regulator"  >
+  <div   class="book-regulator"  @click="toForm">
     <div class="books" @mouseenter.stop="add"  @mouseleave.stop="add" >
-      <span class="hot-word"  v-once>Hot</span>
       <transition name="component-fade" mode="out-in">
         <img :src="index_bg"  class="faker-img"  :key="0.145"  v-if="change_m"/>
      <img :src="faker_bg"  class="faker-img" :key="0.158" v-else/>
@@ -23,6 +22,12 @@
 </template>
 <script>
     export default {
+     async created(){
+        const { data } =  await this.$http.get('/booklist?bookid='+this. books_id)
+        this.resdata=data[0]
+        this.index_bg=data[0].preview.replace(/\?v=[0-9]*$/g,'')+'?v='+parseInt((new Date()).getTime()/1000)
+        console.log(  typeof this.index_bg)
+      },
       props:{
         index_bg:{
           type: String,
@@ -30,19 +35,22 @@
         },
         faker_bg:{
           type: String,
-          default: '//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(Math.random()*100000)+'.jpg'
+          default: '//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(100000)+'.jpg'
         },
         icon_arr: {
           type:Array,
           default:()=>{
           return [{img:'el-icon-news',src:'#'},{img:'el-icon-message',src:'#'},{img:'el-icon-upload',src:'#'},{img:'el-icon-setting',src:'#'}]
           }
-
         },
         star_index: {
           type: Number,
           default:4
         },
+        books_id:{
+          type:Number,
+          default:4
+        }
       },
     data(){
       return {
@@ -53,12 +61,14 @@
         time_index:0,
         change_m:true,
         shaking:true,
+        resdata:[]
       }
     },
       methods:{
-      _login(){
-
-      },
+        toForm(){
+          console.log(this.book_id)
+          this.$router.push('/list?bookid='+this.books_id)
+        },
         randomIndex: function () {
           return Math.floor(Math.random() * this.items.length)
         },

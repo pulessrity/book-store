@@ -9,8 +9,10 @@ import  axios from 'axios'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 Vue.prototype.$http=axios
-axios.defaults.baseURL = 'http://67.218.142.198:3000/staff/';
+Vue.prototype.$typeOf=(v)=>Object.prototype.toString.call(v)
+axios.defaults.baseURL = 'http://localhost:3000/staff/';
 Vue.use(ElementUI);
+Vue.config.silent = true
 const store = new Vuex.Store({
   state: {
     count: 0,
@@ -21,11 +23,17 @@ const store = new Vuex.Store({
   },
   mutations: {
     addcartAndSaving(state,obj){
-    for(let y of state.shopping_cart){
-        if(y._id==obj._id){
-          console.log('has key!')
-          return false
+      let Redo=false
+      state.shopping_cart.forEach((x,i,a)=>{
+        if(x._id==obj._id){
+          Redo=true
+          state.shopping_cart[i]=obj
+          localStorage.shopping_cart=JSON.stringify(state.shopping_cart)
+          console.log(state.shopping_cart[i])
         }
+      })
+      if(Redo){
+        return false;
       }
     state.shopping_cart.push(obj)
     localStorage.shopping_cart=JSON.stringify(state.shopping_cart)
@@ -44,7 +52,6 @@ const store = new Vuex.Store({
     }
   }
 })
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

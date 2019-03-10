@@ -2,16 +2,13 @@
   <div class="hello">
     <el-carousel indicator-position="outside">
       <el-carousel-item v-for="item in items" :key="item">
-        <img :src="item">
+        <img :src="item" style="height: 100%">
       </el-carousel-item>
     </el-carousel>
     <div class="title">NEW <span style="color: #e59285">PRODUCTS</span></div>
     <p class="t2">There are many variations of passages of Lorem Ipsum available, but the majority have suffered lebmid alteration in some ledmid form</p>
-    <div  class="book-container">
-      <v-book :index_bg="'//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(Math.random()*100000)+'.jpg'" :faker_bg="'//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(Math.random()*100000)+'.jpg'"></v-book>
-      <v-book :index_bg="'//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(Math.random()*100000)+'.jpg'" :faker_bg="'//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(Math.random()*100000)+'.jpg'"></v-book>
-      <v-book :index_bg="'//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(Math.random()*100000)+'.jpg'" :faker_bg="'//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(Math.random()*100000)+'.jpg'"></v-book>
-      <v-book :index_bg="'//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(Math.random()*100000)+'.jpg'" :faker_bg="'//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(Math.random()*100000)+'.jpg'"></v-book>
+    <div  class="book-container" style="overflow: scroll;padding: 0 10%">
+      <v-book :index_bg="'//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(Math.random()*100000)+'.jpg'" :faker_bg="'//wallpapers.wallhaven.cc/wallpapers/full/wallhaven-'+parseInt(Math.random()*100000)+'.jpg'" :books_id="numx" v-for="numx in homepage" :key="numx"></v-book>
     </div>
     <div class="gray-bg">
       <div>
@@ -25,6 +22,11 @@
   import  book from '@/components/books.vue'
 export default {
   name: 'HelloWorld',
+  async created(){
+ const  h = await this.$http.get('/homePageBooks')
+    this.homepage=h.data.list_id
+    console.log( this.homepage,'hhh')
+  },
   components:{
     'v-book':book
   },
@@ -34,6 +36,7 @@ export default {
   data () {
     return {
       isLogin:false,
+      homepage:[9,5,6,7,8,15,17,19,25,18],
       msg: 'Welcome to Your Vue.js App',
       items:["https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-666480.jpg","https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-121097.jpg",
         "https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-135725.jpg","https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-150348.jpg"
@@ -61,6 +64,7 @@ export default {
     .hello .book-container{
       display: flex!important;
       padding: 0!important;
+      overflow: scroll!important;
       justify-content: center!important;
       align-items: center!important;
       flex-direction: column!important;

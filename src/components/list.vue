@@ -13,11 +13,12 @@
           text-color="#ff9900"
           score-template="{value}">
         </el-rate></div>
-        <div>${{resdata.price}}</div>
-        <div>color</div>
+        <div>单价:{{resdata.price}}</div>
+        <div>类别</div>
         <div><div class="gray colors" > </div><div class="yellow colors"> </div></div>
-        <div>inventory :{{resdata.inventory}}</div>
+        <div>库存 :{{resdata.inventory}}</div>
         <div>  <el-input-number  :size="'small'" v-model="num1" @change="handleChange" :min="1" :max="resdata.inventory" label="描述文字"></el-input-number>
+          <div>总价:{{num1*resdata.price}}</div>
          <el-button @click="addcart">加入购物车</el-button>
         </div>
         <div class="border"></div>
@@ -32,7 +33,7 @@
        async created (){
        let id  =this.$route.query.bookid
       const { data } =  await this.$http.get('/booklist?bookid='+id)
-        this.resdata=data[0]
+        this.resdata=data[0]                                                                                                                                                                                                                                                                                                                                                                                                                                                
          console.log(data[0])
         },
         data() {
@@ -51,7 +52,14 @@
               this.$store.state.isLogin =true
               return false
             }
-        this.$store.commit('addcartAndSaving',{_id:this.$route.query.bookid})
+        this.$store.commit('addcartAndSaving',{_id:this.$route.query.bookid,
+          count:this.num1,
+          cover:this.resdata.preview,
+          all:this.num1*this.resdata.price,
+          name:this.resdata.bookname,
+          authour:this.resdata.author,
+          price: this.resdata.price
+        })
           this.$message({
             message: '添加购物车成功!',
             type: 'success'

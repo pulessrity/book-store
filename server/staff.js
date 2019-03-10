@@ -7,6 +7,10 @@ const encrytOption = { encryptionScheme: 'pkcs1' }
 const { userSchema, bookSchema} =require('./schema')
 const Userinfo = mongoose.model('user', userSchema);
 const book= mongoose.model('book', bookSchema);
+const  rNum= function (t) {
+  return  parseInt(Math.random()*t)
+}
+/*const crawler = require('./DBcrawler')(book)  /!*爬虫数据*!/*/
 const  RSAdecode = (data)=>{
   var key = new NodeRSA(global.pvKeys)
   key.setOptions(encrytOption )
@@ -27,7 +31,6 @@ const  RSA_generator = ()=>{
   })
 }
 const  isObjectId = (c) =>/^[a-fA-F0-9]{24}$/.test(c)
-
 /*RSA_generator()  /*用于生成秘钥没事别执行~*/
 router.get('/publicKeys', async (req,res,next)=>{
   res.send({keys:global.pbKeys})
@@ -124,5 +127,18 @@ router.post('/checkToken',async (req,res,next)=>{
  else  {
     res.send({msg:'请输入正确id'})
  }
+})
+router.get('/homePageBooks', async (req,res,next)=>{
+  let homePage=[]
+  for(var i = 0 ; i<20;i++){
+    homePage.push(rNum(100))
+  }
+  res.send({list_id:homePage})
+})
+router.get('/search',async (req,res,next)=>{
+  let  e = new RegExp(req.query.name,'g')
+  let  result=await  book.find({bookname:e})
+  console.log(result)
+  res.send(result)
 })
 module.exports = router;
