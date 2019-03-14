@@ -106,7 +106,6 @@ router.get('/booklist',async (req,res,next)=>{
    let  check= {bookid:parseInt(req.query.bookid)}
    let limit = req.query.limit||10
    let skip = (req.query.skip|| 0)*limit
-  console.log(limit,skip)
   const result = await  book.find(check).limit(limit).skip(skip)
   if(result.length){
      res.send(result)

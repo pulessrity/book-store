@@ -24,4 +24,13 @@ app.use(function(err, req, res, next) {
     error: err    // 生产环境中应设为 `error: {}`，禁止输出错误
   });
 });
+
+const EventEmitter = require('events');
+
+
+const myEmitter = new EventEmitter();
+myEmitter.on('event', () => {
+  console.log('触发事件');
+});
+global.b=myEmitter
 startApp(app,port)
